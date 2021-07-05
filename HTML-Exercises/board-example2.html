@@ -1,0 +1,71 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+<meta charset="utf-8">  
+<title>留言板</title>  
+<style type="text/css">  
+#div1{  
+width: 400px;  
+height: 200px;  
+background-color: antiquewhite;  
+}  
+span{  
+color: blue;  
+text-decoration: underline;  
+}  
+</style>  
+</head>  
+<body>  
+<div id="div1">  
+姓名：<input type="text" name="user" id="username" /><br />  
+内容：<textarea rows="10" cols="40" id="info">  
+  
+</textarea>  
+<input type="button" value="留言" id="btn" /><br />  
+</div>  
+<h3>留言板</h3><br />  
+<div id="div2">  
+  
+</div>  
+  
+</body>  
+<script type="text/javascript">  
+var userInput = document.getElementById("username");  
+var infoInput = document.getElementById("info");  
+var btn = document.getElementById("btn");  
+var div2 = document.getElementById("div2");  
+  
+btn.onclick = function(){  
+  
+var user = userInput.value;  
+var info = infoInput.value;  
+  
+var divUser = document.createElement("div");  
+divUser.innerText = user;  
+divUser.style.backgroundColor = "darkgrey";  
+divUser.style.width = "400px";  
+divUser.style.height = "30px";  
+div2.appendChild(divUser);  
+  
+var divInfo = document.createElement("div");  
+divInfo.innerText = info;  
+divInfo.style.backgroundColor = "antiquewhite";  
+divInfo.style.width = "400px";  
+divInfo.style.height = "80px";  
+div2.appendChild(divInfo);  
+  
+var del = document.createElement("span");  
+del.innerText = "删除";  
+del.style.float = "right";  
+divInfo.appendChild(del);  
+  
+del.onclick = function(){  
+divUser.remove();  
+divInfo.remove();  
+del.remove();  
+}  
+  
+}  
+  
+</script>  
+</html>  
