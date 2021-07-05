@@ -1,215 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<style type="text/css">
-     *{padding: 0;margin:0;}
-     html,body{height: 100%;}
-     /* "boomArea" means the large container that contains all blocks */
-     #boomArea{width:260px;height:260px;border:1px solid red;}
-     /* "boom" class means the smaller blocks */
-     .boom{width: 20px;height: 20px;margin:2px 2px; border:#6AC239 1px solid;background-color: #5884E3;float: left;line-height: 20px;text-align: center;}
-     .boom:hover{cursor: pointer;box-shadow: blue 0 0 5px;}
- </style>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        /* "boomArea" means the large container that contains all blocks */
+        #boomArea {
+            width: 260px;
+            height: 260px;
+            border: 1px solid red;
+        }
+
+        /* "boom" class means the smaller blocks */
+        .boom {
+            width: 20px;
+            height: 20px;
+            margin: 2px 2px;
+            border: #6AC239 1px solid;
+            background-color: #5884E3;
+            float: left;
+            line-height: 20px;
+            text-align: center;
+        }
+
+        .boom:hover {
+            cursor: pointer;
+            box-shadow: blue 0 0 5px;
+        }
+    </style>
 </head>
-<body >
-  <div id="boomArea"></div>
-  
-  <script type="text/javascript">
- 		//封装一个函数 用来 获取id方便 懒得写那么长的方法名
-       function _id(id){
-          return document.getElementById(id);
-      }
-  		 //再封装一个 翻遍创建节点的
-  		 function _create(name,attr){   
-             var t =  document.createElement(name);
-             if(attr) {
-                for(var i in attr)  {
-                  t.setAttribute(i, attr[i]);
-              }
-          }
-          return t;
-      }
-  		 //再来个函数 用来生成雷区中的小块
-  		 function mapInit(){
-  		 	//为了之后方便 我们先清空雷区
-  		 	_id("boomArea").innerHTML='';
-            for(var i=0;i<100;i++) 
-              _id("boomArea").appendChild( _create('div',{'id':'boom'+i,'class':'boom'}));
-      }
-      
-  		 //游戏大致流程 
-  		 //当我们点开了一个小块后 我们就需要布置雷啦 
-  		 //然后计算出每次点击的时候 被点击的小块 附近有多少雷 然后显示出来 
-         //boom 小块 每个 都有一个id 是boom + 他的序号 
-         //我们就生产十个雷吧 用一个数组存起来就好了 
-         
-         //生成雷 
-         //boomNum 指定个数的雷 n 共有多少个 小块
-         //exclude 排除第一次点击的那个小块 不能让别人毫无游戏体验  
-         function produceBoom(boomNum,n,exclude){
-         	//生成待选数组
-         	var arr = [];
-         	for(var i=0;i<n;i++) 
-         		if(i!=exclude) arr.push(i);
-         	//生成不重复的雷 
-         	var boomArr=[];
-         	for(var i=0;i<boomNum;i++){
-         		var flag = Math.floor(Math.random()*arr.length);
-         		boomArr.push(arr[flag]);
-         		arr.splice(flag,1); 
-         	}
-         	return boomArr;
-         }
-         
-         //接下来就是 该判断 点击是不是雷了  
-         function isBoom(clickNum,boomMap){
-          return boomMap.includes(clickNum);
-      }
-      
-         //如果点到的不是雷 我们就需要计算 它的周围有多少雷 了 
-         //很明显 我们需要通过 被点击的这个小块 的下标 来确定哪些雷在它的附近 
-         //所以 我们来做一个函数 用于 获取被点击的小块 周围的 小块 
-         //为了 方便扩展 我们把每行多少个小块 每列多少个小块 传入
-         //全用if 看起来不舒服 所以 容我用一种写的少的写法来 代替一部分 if
-         function getBlock(clickNum,rowNum,colNum){  /*获取周围区域编号*/
-         	if(clickNum<0 || clickNum>=rowNum*colNum) return;
-             var around=[];
-             var isMostTop=Math.floor(clickNum/colNum)!=0;
-             var isMostBottom=Math.floor(clickNum/colNum)!=colNum-1;
-             var isMostLeft=Math.floor(clickNum%rowNum!=0);
-             var isMostRight= Math.floor(clickNum%rowNum!=rowNum-1);
-			if(isMostTop){  //不是在第一行 则可以获取出去上一行附近的位置
-		     isMostLeft &&  around.push(clickNum - rowNum-1); 	//不在最左 存入左上
-		     around.push(clickNum - rowNum);  //正上方位置
-		     isMostRight && around.push(clickNum - rowNum+1); 
-      }
-			isMostLeft &&  around.push(clickNum-1); //不在最左 存入正左位置
-		    isMostRight && around.push(clickNum+1); //不是在最右边 存入最右 
-		   if(isMostBottom){  //不是在最下面一行 则向下判断
-		      isMostLeft &&  around.push(clickNum +rowNum-1);  //不在最左 存入左下
-		      around.push(clickNum + rowNum);  //正上方位置
-		      isMostRight && around.push(clickNum + rowNum+1);   //不是在最右边存入右下 
-       }  
-       return around;
-   }
+
+<body>
+    <div id="boomArea"></div>
+
+    <script type="text/javascript">
+        //封装一个函数 用来 获取id方便 懒得写那么长的方法名
+        function _id(id) {
+            return document.getElementById(id);
+        }
+        //再封装一个 翻遍创建节点的
+        function _create(name, attr) {
+            var t = document.createElement(name);
+            if (attr) {
+                for (let i in attr) {
+                    t.setAttribute(i, attr[i]);
+                }
+            }
+            return t;
+        }
+        //再来个函数 用来生成雷区中的小块
+        function mapInit() {
+            //为了之后方便 我们先清空雷区
+            _id("boomArea").innerHTML = '';
+            for (var i = 0; i < 100; i++)
+                _id("boomArea").appendChild(_create('div', { 'id': 'boom' + i, 'class': 'boom' }));
+        }
+
+        //游戏大致流程 
+        //当我们点开了一个小块后 我们就需要布置雷啦 
+        //然后计算出每次点击的时候 被点击的小块 附近有多少雷 然后显示出来 
+        //boom 小块 每个 都有一个id 是boom + 他的序号 
+        //我们就生产十个雷吧 用一个数组存起来就好了 
+
+        //生成雷 
+        //boomNum 指定个数的雷 n 共有多少个 小块
+        //exclude 排除第一次点击的那个小块 不能让别人毫无游戏体验  
+        function produceBoom(boomNum, n, exclude) {
+            //生成待选数组
+            var arr = [];
+            for (var i = 0; i < n; i++)
+                if (i != exclude) arr.push(i);
+            //生成不重复的雷 
+            var boomArr = [];
+            for (var i = 0; i < boomNum; i++) {
+                var flag = Math.floor(Math.random() * arr.length);
+                boomArr.push(arr[flag]);
+                arr.splice(flag, 1);
+            }
+            return boomArr;
+        }
+
+        //接下来就是 该判断 点击是不是雷了  
+        function isBoom(clickNum, boomMap) {
+            return boomMap.includes(clickNum);
+        }
+
+        //如果点到的不是雷 我们就需要计算 它的周围有多少雷 了 
+        //很明显 我们需要通过 被点击的这个小块 的下标 来确定哪些雷在它的附近 
+        //所以 我们来做一个函数 用于 获取被点击的小块 周围的 小块 
+        //为了 方便扩展 我们把每行多少个小块 每列多少个小块 传入
+        //全用if 看起来不舒服 所以 容我用一种写的少的写法来 代替一部分 if
+        function getBlock(clickNum, rowNum, colNum) {  /*获取周围区域编号*/
+            if (clickNum < 0 || clickNum >= rowNum * colNum) return;
+            var around = [];
+            var isMostTop = Math.floor(clickNum / colNum) != 0;
+            var isMostBottom = Math.floor(clickNum / colNum) != colNum - 1;
+            var isMostLeft = Math.floor(clickNum % rowNum != 0);
+            var isMostRight = Math.floor(clickNum % rowNum != rowNum - 1);
+            if (isMostTop) {  //不是在第一行 则可以获取出去上一行附近的位置
+                isMostLeft && around.push(clickNum - rowNum - 1); 	//不在最左 存入左上
+                around.push(clickNum - rowNum);  //正上方位置
+                isMostRight && around.push(clickNum - rowNum + 1);
+            }
+            isMostLeft && around.push(clickNum - 1); //不在最左 存入正左位置
+            isMostRight && around.push(clickNum + 1); //不是在最右边 存入最右 
+            if (isMostBottom) {  //不是在最下面一行 则向下判断
+                isMostLeft && around.push(clickNum + rowNum - 1);  //不在最左 存入左下
+                around.push(clickNum + rowNum);  //正上方位置
+                isMostRight && around.push(clickNum + rowNum + 1);   //不是在最右边存入右下 
+            }
+            return around;
+        }
         //拿到了 周围区域的编号 应该要计算周围有几个雷了 这个好办 
-        function calculationCountBoom(blockArr,boomMap){
-        	var count =0;
-        	for(var i=0;i<blockArr.length;i++) 
-             count += (isBoom(blockArr[i],boomMap)? 1:0);
-         return count;
-     }
-     
+        function calculationCountBoom(blockArr, boomMap) {
+            var count = 0;
+            for (var i = 0; i < blockArr.length; i++)
+                count += (isBoom(blockArr[i], boomMap) ? 1 : 0);
+            return count;
+        }
+
         //嗯？ 最后好像 还差一个很关键的东西 
         //我们扫雷的 时候 如果 有哪个小块附近一个雷 都没有 便会自动展开它周围的小块 
         //所以说  在我们点下去的 一瞬间 起始是要翻开很多小块的 
         //那就做一个 函数 来 拿到我们再点击的 时候 来拿到附近没有雷的小块 
-        function getOpenArr(num,rowNum,colNum,boomMap){
-           var alreadySearched = [];  //已搜索过的  
-           var aroundArr = []; //待搜索的
-           var result=[]; //待翻开的
-           alreadySearched.push(num);  //已经搜索过的记录下来 防止重复程序卡死
-           aroundArr.push(num); //加入待搜索数组
-           while(aroundArr.length>0){ //直到搜索队列中没有元素 则本次搜索结束
-             var arr = getBlock(aroundArr[0],rowNum,colNum)	 //获取到 搜索列表中 附近的节点
-              for(var i=0;i<arr.length;i++){ //遍历其周围的 小块 判断 有没有需要加入带搜索队列的 
-              	   // 判断是否需要加入搜索队列
-                     if(calculationCountBoom(getBlock(arr[i],rowNum,colNum),boomMap) == 0){
-              	  	//已搜索队列不存在 同时正在搜索的队列也不存在 则可代表未搜索过的
-              	  	if( ! (alreadySearched.concat(aroundArr)).includes(arr[i]) ){
-              	  		 aroundArr.push(arr[i]); //加入待搜索队列
-				         result.push(arr[i]); //该块为0 需要翻开周围的
-                  }
-              }
-              	alreadySearched.push(arr[i]); //加入已搜索的队列
-              }
-            //将该块 加入已搜索队列 从带搜索队列移除
-            alreadySearched.push(aroundArr[0]);
-            aroundArr.splice(0,1);
+        function getOpenArr(num, rowNum, colNum, boomMap) {
+            var alreadySearched = [];  //已搜索过的  
+            var aroundArr = []; //待搜索的
+            var result = []; //待翻开的
+            alreadySearched.push(num);  //已经搜索过的记录下来 防止重复程序卡死
+            aroundArr.push(num); //加入待搜索数组
+            while (aroundArr.length > 0) { //直到搜索队列中没有元素 则本次搜索结束
+                var arr = getBlock(aroundArr[0], rowNum, colNum)	 //获取到 搜索列表中 附近的节点
+                for (var i = 0; i < arr.length; i++) { //遍历其周围的 小块 判断 有没有需要加入带搜索队列的 
+                    // 判断是否需要加入搜索队列
+                    if (calculationCountBoom(getBlock(arr[i], rowNum, colNum), boomMap) == 0) {
+                        //已搜索队列不存在 同时正在搜索的队列也不存在 则可代表未搜索过的
+                        if (!(alreadySearched.concat(aroundArr)).includes(arr[i])) {
+                            aroundArr.push(arr[i]); //加入待搜索队列
+                            result.push(arr[i]); //该块为0 需要翻开周围的
+                        }
+                    }
+                    alreadySearched.push(arr[i]); //加入已搜索的队列
+                }
+                //将该块 加入已搜索队列 从带搜索队列移除
+                alreadySearched.push(aroundArr[0]);
+                aroundArr.splice(0, 1);
+            }
+            return result;
         }
-        return result;
-    }
-    
+
         //这样我们就拿到了 被点击的 小块 和 点击后 周围没有雷的小块了 
         //这个时候 我们通过来翻开它 以及它附近的小块 就可以了 
-        function openBlock(arr,rowNum,colNum,boomMap){
-        	var openArr = []; //拿到需要翻开的小块 
-        	for(var i=0;i<arr.length;i++){
-        		openArr=openArr.concat(getBlock(arr[i],rowNum,colNum)); 
-        	}
-        	//上面的操作之后 openArr数组中难免会有重复的小块 
-        	//我们需要去掉它
-        	openArr = Array.from(new Set(openArr)); 
-        	//然后 就该来 翻开他们了 同时我们需要显示它附近有几个雷
-        	//还记得我们的小块的id的生产规则吗    boom + 他的序号 
-        	//所以 我们 _id('boom'+openArr[i]) 就可以拿到它了
-        	for(var i=0;i<openArr.length;i++){
-        		_id('boom'+openArr[i]).style.backgroundColor="rgba(0,0,0,0)";
-        		_id('boom'+openArr[i]).className='boom open';
-        		//如果 他的附近没有 雷 我们不管他 有雷的话 就显示数量
-        		var boomCount= calculationCountBoom(getBlock(openArr[i],rowNum,colNum),boomMap);
-        		if(boomCount != 0){
-                  _id('boom'+openArr[i]).innerText = boomCount
-              } 
-          }
-      }
+        function openBlock(arr, rowNum, colNum, boomMap) {
+            var openArr = []; //拿到需要翻开的小块 
+            for (var i = 0; i < arr.length; i++) {
+                openArr = openArr.concat(getBlock(arr[i], rowNum, colNum));
+            }
+            //上面的操作之后 openArr数组中难免会有重复的小块 
+            //我们需要去掉它
+            openArr = Array.from(new Set(openArr));
+            //然后 就该来 翻开他们了 同时我们需要显示它附近有几个雷
+            //还记得我们的小块的id的生产规则吗    boom + 他的序号 
+            //所以 我们 _id('boom'+openArr[i]) 就可以拿到它了
+            for (var i = 0; i < openArr.length; i++) {
+                _id('boom' + openArr[i]).style.backgroundColor = "rgba(0,0,0,0)";
+                _id('boom' + openArr[i]).className = 'boom open';
+                //如果 他的附近没有 雷 我们不管他 有雷的话 就显示数量
+                var boomCount = calculationCountBoom(getBlock(openArr[i], rowNum, colNum), boomMap);
+                if (boomCount != 0) {
+                    _id('boom' + openArr[i]).innerText = boomCount
+                }
+            }
+        }
         //好了 上面写了 这么多 差不多 可以连贯起来用了 
         //实在缺点啥 咱再写 
         //做个函数 方便 小块的 id与 下标的 转换
-        function idToIndex(id){
-           return parseInt(id.substr(4));
-       }
-       
+        function idToIndex(id) {
+            return parseInt(id.substr(4));
+        }
+
         //1、生成雷区中的小块 
         mapInit();
-  		//2、用一个 数组 存我们的 雷
-  		boomMap =[];
-  		//3、用事件委托 来 把小块的点击事件 委托给 boomArea 
-  		//事件委托 不懂的 可以看我另外的博客 
-  		_id('boomArea').addEventListener('click',function(e){
-            var e=e || window.event
-	  			 if(e.target.className == 'boom'){ //点击的 是小块 
-	  			 	//还未生成雷  
-                 if(boomMap.length == 0)  
-                    boomMap=produceBoom(10,100,idToIndex(e.target.id));
-                
-					//点的这是是不是雷 ？ 嗯 封装成一个函数吧 
-					 if(isBoom(idToIndex(e.target.id),boomMap)){ //到这里 游戏就结束了 
-                        alert("踩雷了,你运气真差!!!!"); 
-						//初始化一下雷区 就可以开始新一轮游戏了 
-                     mapInit();
-                     boomMap=[]; 
-                     return;
-                 }
-                 
-					 //看下他周围有没有雷 
-					 var countBoom= calculationCountBoom(getBlock(idToIndex(e.target.id),10,10),boomMap);
-					 //拿到了周围有多少雷了 就直接翻开它 
-					 e.target.style.backgroundColor="rgba(0,0,0,0)";
-					 e.target.className = 'boom open';
-					 if(countBoom != 0){   //如果周围有雷就只需要翻开这一个就可以了 
-                        e.target.innerText = countBoom;
-                    } else {
-                        var openArr = (getOpenArr(idToIndex(e.target.id),10,10,boomMap));
-					 openArr.push(idToIndex(e.target.id)); //自身周围的 也是需要翻开的
-					//翻开小块 
-                  openBlock(openArr ,10,10,boomMap);
-              }
-					//最后需要判断一下是否过关 
-					//条件很简单 还没翻开的小块 = 雷的数量 就过关了 
-					//嗯 这个好办 我们改改上面翻开的时候的代码  在翻开的 时候 我们把它className加上一个open 就好了
-					//然后 通过类名来获取他们的数量 +雷的数量 = 小块总数 就是胜利啦
-					if(document.getElementsByClassName("open").length+boomMap.length==100){
-						//游戏胜利 
-						alert("你可真棒，竟然赢啦!!!"); //到这里 游戏就结束了 
-						//初始化一下雷区 就可以开始新一轮游戏了 
-                     mapInit();
-                     boomMap=[]; 
-                 }
-             }
-         });
-     </script>
- </body>
- </html>
+        //2、用一个 数组 存我们的 雷
+        boomMap = [];
+        //3、用事件委托 来 把小块的点击事件 委托给 boomArea 
+        //事件委托 不懂的 可以看我另外的博客 
+        _id('boomArea').addEventListener('click', function (e) {
+            var e = e || window.event
+            if (e.target.className == 'boom') { //点击的 是小块 
+                //还未生成雷  
+                if (boomMap.length == 0)
+                    boomMap = produceBoom(10, 100, idToIndex(e.target.id));
+
+                //点的这是是不是雷 ？ 嗯 封装成一个函数吧 
+                if (isBoom(idToIndex(e.target.id), boomMap)) { //到这里 游戏就结束了 
+                    alert("踩雷了,你运气真差!!!!");
+                    //初始化一下雷区 就可以开始新一轮游戏了 
+                    mapInit();
+                    boomMap = [];
+                    return;
+                }
+
+                //看下他周围有没有雷 
+                var countBoom = calculationCountBoom(getBlock(idToIndex(e.target.id), 10, 10), boomMap);
+                //拿到了周围有多少雷了 就直接翻开它 
+                e.target.style.backgroundColor = "rgba(0,0,0,0)";
+                e.target.className = 'boom open';
+                if (countBoom != 0) {   //如果周围有雷就只需要翻开这一个就可以了 
+                    e.target.innerText = countBoom;
+                } else {
+                    var openArr = (getOpenArr(idToIndex(e.target.id), 10, 10, boomMap));
+                    openArr.push(idToIndex(e.target.id)); //自身周围的 也是需要翻开的
+                    //翻开小块 
+                    openBlock(openArr, 10, 10, boomMap);
+                }
+                //最后需要判断一下是否过关 
+                //条件很简单 还没翻开的小块 = 雷的数量 就过关了 
+                //嗯 这个好办 我们改改上面翻开的时候的代码  在翻开的 时候 我们把它className加上一个open 就好了
+                //然后 通过类名来获取他们的数量 +雷的数量 = 小块总数 就是胜利啦
+                if (document.getElementsByClassName("open").length + boomMap.length == 100) {
+                    //游戏胜利 
+                    alert("你可真棒，竟然赢啦!!!"); //到这里 游戏就结束了 
+                    //初始化一下雷区 就可以开始新一轮游戏了 
+                    mapInit();
+                    boomMap = [];
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
