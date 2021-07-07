@@ -6,12 +6,16 @@ class CommentList extends Component {
     static defaultProps = {
         commentInfo : []
     }
+
+    onSubmitDelete(index) {
+        this.props.submitDelete(index)
+    }
     
     render() {
         return (
             <div>
                 {this.props.commentInfo.map(
-                    (oneComment, i) => <Comment commentInfo={oneComment} key={i}/>
+                    (oneComment, i) => <Comment commentInfo={oneComment} key={i} index={i} submitDelete={this.onSubmitDelete.bind(this)}/>
                 )}
             </div>
         )

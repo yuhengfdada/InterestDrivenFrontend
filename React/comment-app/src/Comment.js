@@ -19,6 +19,14 @@ class Comment extends Component {
 
   componentDidMount() {
     this._updateTimeString()
+    this._timer = setInterval(
+      this._updateTimeString.bind(this),
+      5000
+    )
+  }
+
+  deleteClicked() {
+    this.props.submitDelete(this.props.index)
   }
 
   render() {
@@ -30,6 +38,10 @@ class Comment extends Component {
         <p>{this.props.commentInfo.comment}</p>
         <span className='comment-createdtime'>
           {this.state.timeString}
+        </span>
+        <span onClick={this.deleteClicked.bind(this)}
+        className='comment-delete'>
+          删除
         </span>
       </div>
     )
