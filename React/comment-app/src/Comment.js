@@ -29,6 +29,9 @@ class Comment extends Component {
     this.props.submitDelete(this.props.index)
   }
 
+  componentWillUnmount() {
+    clearInterval(this._timer)
+  }
   render() {
     return (
       <div className='comment'>
