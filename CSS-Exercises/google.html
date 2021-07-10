@@ -7,14 +7,79 @@
             font-family: sans-serif;
         }
 
-        .flex-container {
+        body {
+            margin: 0;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            height: 48px;
+            padding: 6px;
+        }
+
+        .header>div {
+            font-size: 14px;
+
+        }
+
+        .header div:last-child {
+            margin-right: 20px;
+        }
+
+        .logo-div {
+            margin-top: 67px;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto;
+            height: 92px;
+            width: 272px;
+        }
+
+        .search-form {
+            padding: 20px 0;
+        }
+
+        .search-bar-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 6px auto;
+            height: 42px;
+            width: 580px;
+            border: 1px solid rgb(208, 206, 206);
+            border-radius: 150px;
+        }
+
+        .search-bar-div:hover {
+            box-shadow: 0 2px 6px 0 rgba(31, 31, 31, 0.2);
+        }
+
+        .search-bar {
+            height: 34px;
+            width: 487px;
+            font-size: 16px;
+            border: none;
+        }
+
+        .search-bar:focus {
+            outline: none;
+        }
+
+        .footer {
+            position: fixed;
             display: flex;
             align-items: center;
             height: 50px;
             background-color: #f1f1f1;
+            bottom: 0;
+            left: 0;
+            width: 100%;
         }
 
-        .flex-container>div {
+        .footer>div {
             background-color: #f1f1f1;
             color: gray;
             width: auto;
@@ -24,18 +89,32 @@
             font-size: 15px;
         }
 
-        .flex-container div:first-child {
+        .footer div:first-child {
             margin-left: 15px;
         }
 
-        .flex-container div:last-child {
+        .footer div:last-child {
             margin-right: 15px;
         }
     </style>
 </head>
 
 <body>
-    <div class="flex-container">
+    <div class="header">
+        <div style="margin-left: auto;">图片</div>
+    </div>
+    <div class="logo-div">
+        <img class="logo" src="resources/googlelogo_color_272x92dp.png">
+    </div>
+    <div class="search-form">
+        <div class="search-bar-div">
+            <input class="search-bar">
+        </div>
+        <button></button>
+        <button></button>
+    </div>
+
+    <div class="footer">
         <div>Google 大全</div>
         <div>广告</div>
         <div>商务</div>
