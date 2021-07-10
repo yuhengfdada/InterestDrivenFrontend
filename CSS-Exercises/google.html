@@ -18,12 +18,12 @@
             padding: 6px;
         }
 
-        .header>div {
+        .header>a {
             font-size: 14px;
-
+            text-decoration: none;
         }
 
-        .header div:last-child {
+        .header a:last-child {
             margin-right: 20px;
         }
 
@@ -46,9 +46,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 6px auto;
+            margin: 6px auto 0;
             height: 42px;
-            width: 580px;
+            max-width: 580px;
             border: 1px solid rgb(208, 206, 206);
             border-radius: 150px;
         }
@@ -57,9 +57,16 @@
             box-shadow: 0 2px 6px 0 rgba(31, 31, 31, 0.2);
         }
 
+        .search-bar-div>img {
+            width: 50px;
+        }
+
         .search-bar {
             height: 34px;
-            width: 487px;
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 100%;
+            max-width: 487px;
             font-size: 16px;
             border: none;
         }
@@ -68,9 +75,36 @@
             outline: none;
         }
 
-        .footer {
+        .search-buttons-div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 18px;
+            width: auto;
+            height: 70px;
+        }
+
+        .search-buttons-div>button {
+            border: none;
+            background-color: rgb(244, 244, 244);
+            color: rgb(0, 0, 0);
+            border-radius: 4px;
+            padding: 0 16px;
+            margin: 11px 4px;
+            height: 36px;
+        }
+
+        .search-buttons-div>button:hover {
+            box-shadow: 0 2px 6px 0 rgba(31, 31, 31, 0.2);
+            cursor: pointer;
+            border: 1px solid rgb(226, 226, 226);
+        }
+
+        .footer,
+        [class*="alt-"] {
             position: fixed;
             display: flex;
+            justify-content: center;
             align-items: center;
             height: 50px;
             background-color: #f1f1f1;
@@ -79,50 +113,107 @@
             width: 100%;
         }
 
-        .footer>div {
+        .footer>a,
+        [class*="alt-"]>a {
             background-color: #f1f1f1;
             color: gray;
             width: auto;
             padding: 0px 20px;
             margin: 0px;
             text-align: center;
+            text-decoration: none;
             font-size: 15px;
         }
 
-        .footer div:first-child {
+        .footer a:first-child {
             margin-left: 15px;
         }
 
-        .footer div:last-child {
+        .footer a:last-child {
             margin-right: 15px;
+        }
+
+        [class*="alt-"] {
+            display: none;
+        }
+
+        .header a:hover, .footer a:hover, [class*="alt-"] a:hover {
+            text-decoration: underline;
+        }
+
+        .header a:visited {
+            color: black;
+        }
+        .footer a:visited, [class*="alt-"] a:visited {
+            color: gray;
+        }
+        .header a:active {
+            color: black;
+        }
+        .footer a:active, [class*="alt-"] a:active {
+            color: gray;
+        }
+        @media screen and (max-width: 718px) {
+            .search-bar-div {
+                margin: 6px 20px 0;
+            }
+
+            .footer {
+                display: none;
+            }
+
+            .alt-footer-1 {
+                bottom: 50px;
+            }
+
+            [class*="alt-"] {
+                display: flex;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="header">
-        <div style="margin-left: auto;">图片</div>
+        <a href="#" style="margin-left: auto;">图片</a>
     </div>
     <div class="logo-div">
         <img class="logo" src="resources/googlelogo_color_272x92dp.png">
     </div>
     <div class="search-form">
         <div class="search-bar-div">
+            <img>
             <input class="search-bar">
+            <img>
         </div>
-        <button></button>
-        <button></button>
+        <div class="search-buttons-div">
+            <button>Google 搜索</button>
+            <button>手气不错</button>
+        </div>
     </div>
 
     <div class="footer">
-        <div>Google 大全</div>
-        <div>广告</div>
-        <div>商务</div>
-        <div style="margin-right: auto;">Google 搜索的运作方式</div>
-        <div>隐私权</div>
-        <div>条款</div>
-        <div>设置</div>
+        <a href="#">Google 大全</a>
+        <a href="#">广告</a>
+        <a href="#">商务</a>
+        <a href="#" style="margin-right: auto;">Google 搜索的运作方式</a>
+        <a href="#">隐私权</a>
+        <a href="#">条款</a>
+        <a href="#">设置</a>
     </div>
+
+    <div class="alt-footer-1">
+        <a href="#">Google 大全</a>
+        <a href="#">广告</a>
+        <a href="#">商务</a>
+        <a href="#">Google 搜索的运作方式</a>
+    </div>
+    <div class="alt-footer-2">
+        <a href="#">隐私权</a>
+        <a href="#">条款</a>
+        <a href="#">设置</a>
+    </div>
+
 </body>
 
 </html>
