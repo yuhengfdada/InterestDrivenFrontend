@@ -7,5 +7,5 @@ Start date: 2021/07/03
 - [x] PHP
 - [x] HTML/JS Exercises
 - [x] Javascript ES6
-- [ ] CSS
+- [x] CSS
 - [ ] React
