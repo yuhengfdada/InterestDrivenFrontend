@@ -8,4 +8,5 @@ Start date: 2021/07/03
 - [x] HTML/JS Exercises
 - [x] Javascript ES6
 - [x] CSS
-- [ ] React
+- [x] React
+- [ ] React ecosystem: Next.js [Exercises](https://github.com/yuhengfdada/next-js-exercises)
