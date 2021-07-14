@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800"
+    />
+    <style>
+      * {
+        font-family: "heebo";
+        font-size: 14px;
+      }
+      .logo-div {
+        margin: 10vh auto 0;
+        width: 50vh;
+      }
+      .links {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-55%);
+      }
+      .link-elem {
+        display: inline-block;
+        letter-spacing: 0.5rem;
+      }
+      .link-elem:not(:last-of-type)::after {
+        content: "/";
+      }
+      .link-elem > a {
+        color: #999999;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="logo-div">
+      <img src="resources/YS_Final.svg" />
+    </div>
+    <div class="links-div">
+      <ul class="links">
+        <li class="link-elem">
+          <a href=""><strong>BIO</strong></a>
+        </li>
+        <li class="link-elem">
+          <a href=""><strong>PROJECTS</strong></a>
+        </li>
+        <li class="link-elem">
+          <a href=""><strong>BLOG</strong></a>
+        </li>
+        <li class="link-elem">
+          <a href=""><strong>CONTACT</strong></a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
